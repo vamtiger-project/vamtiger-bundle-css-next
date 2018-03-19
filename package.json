@@ -3,6 +3,9 @@
     "version": "0.0.1",
     "description": "Bundle CSS Next",
     "main": "build",
+    "bin": {
+        "vamtiger-bundle-css-next": "build/bin/index.js"
+    },
     "scripts": {
         "test": "mocha build/test --recursive",
         "build": "tsc",
