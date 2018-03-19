@@ -24,9 +24,7 @@ export default async (params: Params) => {
     const copyBundleFilePath = bundleFilePath && params.copyBundleFilePath;
     const bundleParams = entryFilePath && {
         from: entryFilePath,
-        map: {
-            inline: false
-        }
+        map: true
     };
     const css = await getFileText(entryFilePath);
     const bundle = await postcss(bundleProcessors)

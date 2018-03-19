@@ -31,9 +31,7 @@ exports.default = (params) => __awaiter(this, void 0, void 0, function* () {
     const copyBundleFilePath = bundleFilePath && params.copyBundleFilePath;
     const bundleParams = entryFilePath && {
         from: entryFilePath,
-        map: {
-            inline: false
-        }
+        map: true
     };
     const css = yield vamtiger_get_file_text_1.default(entryFilePath);
     const bundle = yield postcss(bundleProcessors)
