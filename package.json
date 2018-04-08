@@ -1,0 +1,53 @@
+{
+    "name": "vamtiger-bundle-css-next",
+    "version": "0.0.4-0",
+    "description": "Bundle CSS Next",
+    "main": "build",
+    "bin": {
+        "vamtiger-bundle-css-next": "build/bin/index.js"
+    },
+    "scripts": {
+        "test": "mocha build/test --recursive",
+        "build": "tsc",
+        "commit": "vamtigerNodeTypescriptCommit --push --publish"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vamtiger-project/vamtiger-bundle-css-next.git"
+    },
+    "keywords": [
+        "vamtiger",
+        "bundle",
+        "css"
+    ],
+    "author": "Vamtiger Immortalles",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/vamtiger-project/vamtiger-bundle-css-next/issues"
+    },
+    "homepage": "https://github.com/vamtiger-project/vamtiger-bundle-css-next#readme",
+    "types": "build/index.d.ts",
+    "devDependencies": {
+        "@types/chai": "^4.1.2",
+        "@types/mocha": "^2.2.48",
+        "@types/node": "^9.4.7",
+        "@types/xregexp": "^3.0.29",
+        "chai": "^4.1.2",
+        "mocha": "^5.0.4",
+        "typescript": "^2.7.2",
+        "vamtiger-node-typescript-commit": "0.0.51"
+    },
+    "dependencies": {
+        "cssnano": "^3.10.0",
+        "postcss": "^6.0.20",
+        "postcss-apply": "^0.9.0",
+        "postcss-cssnext": "^3.1.0",
+        "postcss-import": "^11.1.0",
+        "vamtiger-argv": "^1.2.3",
+        "vamtiger-bash": "0.0.16",
+        "vamtiger-copy-file": "0.0.9",
+        "vamtiger-create-file": "0.0.7",
+        "vamtiger-get-file-text": "0.0.5",
+        "xregexp": "^4.1.1"
+    }
+}
