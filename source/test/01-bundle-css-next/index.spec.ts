@@ -26,6 +26,7 @@ const entryFilePath = resolvePath(
 );
 const bundleFilePath = resolvePath(
     mockDataFolderPath,
+    'bundle',
     cssFile
 );
 const copyBundleFilePath = resolvePath(

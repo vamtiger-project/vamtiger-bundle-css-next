@@ -31,6 +31,7 @@ const bundleFilePath = resolvePath(
 );
 const copyBundleFilePath = resolvePath(
     mockDataFolderPath,
+    'bundle',
     cssFileCopy
 );
 const createMockDataFolder = `mkdir ${mockDataFolderPath}`;
