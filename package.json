@@ -1,6 +1,6 @@
 {
     "name": "vamtiger-bundle-css-next",
-    "version": "0.0.12-0",
+    "version": "0.0.12",
     "description": "Bundle CSS Next",
     "main": "build",
     "bin": {
