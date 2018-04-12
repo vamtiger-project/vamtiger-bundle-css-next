@@ -1,1 +1,0 @@
-{"version":3,"sources":["build/test/02-bundle-css-next-bash/mock-data/reset/index.css"],"names":[],"mappings":"AAAA,UAGI,SAAU,AACV,UAAW,AACX,eAAkB,CACrB","file":"build/test/02-bundle-css-next-bash/mock-data/index.css","sourcesContent":["html,\nbody \n{\n    margin: 0;\n    padding: 0;\n    background: black;\n}"]}
