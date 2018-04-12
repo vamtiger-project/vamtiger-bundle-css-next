@@ -27,6 +27,7 @@ const entryFilePath = resolvePath(
 );
 const bundleFilePath = resolvePath(
     mockDataFolderPath,
+    'bundle',
     cssFile
 );
 const copyBundleFilePath = resolvePath(
@@ -48,8 +49,8 @@ const createCssBundle = [
 
 describe('vamtiger-bundle-css-next should', function () {
     it('bundle html into a single CSS file', async function () {
-        const copy = await bash(copySource).catch(() => {});
         const createFolder = bash(createMockDataFolder).catch(ignore);
+        const copy = await bash(copySource).catch(() => {});
         const createdBundle = await bash(createCssBundle);
         const cssBundle = await getFileData(bundleFilePath, encoding);
         const cssBundleCopy = await getFileData(copyBundleFilePath, encoding);
