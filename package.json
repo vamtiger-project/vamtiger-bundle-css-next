@@ -9,7 +9,7 @@
     "scripts": {
         "test": "mocha build/test --recursive",
         "build": "tsc",
-        "commit": "vamtigerNodeTypescriptCommit --push --publish"
+        "commit": "npm test && vamtigerNodeTypescriptCommit --push --publish"
     },
     "repository": {
         "type": "git",
