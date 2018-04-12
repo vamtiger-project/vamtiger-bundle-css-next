@@ -3,9 +3,14 @@ import { expect } from 'chai';
 import createFile from 'vamtiger-create-file';
 import bash from 'vamtiger-bash';
 import getFileData from 'vamtiger-get-file-data';
+import getDirectoryContent from 'vamtiger-get-directory-content';
 import * as XRegExp from 'xregexp';
 import createBundle from '../..';
 
+const projectPath = resolvePath(
+    __dirname,
+    '../../..'
+);
 const build = XRegExp('/build/');
 const source = '/source/';
 const mockData =  'mock-data';
@@ -42,7 +47,11 @@ const bundleCssParams = {
 
 describe('vamtiger-bundle-css-next should', function () {
     it('bundle html into a single CSS file', async function () {
-        const copy = await bash(copySource).catch(() => {});
+        const directoryContent = await getDirectoryContent(projectPath);
+        const copy = directoryContent.includes('source') ? 
+            await bash(copySource).catch(() => {})
+            :
+            this.skip();
         const createFolder = bash(createMockDataFolder).catch(ignore);
         const createdBundle = await createBundle(bundleCssParams);
         const cssBundle = await getFileData(bundleFilePath, encoding);

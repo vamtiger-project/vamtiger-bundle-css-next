@@ -2,11 +2,16 @@ import { resolve as resolvePath, dirname } from 'path';
 import { expect } from 'chai';
 import createFile from 'vamtiger-create-file';
 import bash from 'vamtiger-bash';
+import getDirectoryContent from 'vamtiger-get-directory-content';
 import getFileData from 'vamtiger-get-file-data';
 import * as XRegExp from 'xregexp';
 import createBundle from '../..';
 import { CommandlineArgs as Args } from '../../types';
 
+const projectPath = resolvePath(
+    __dirname,
+    '../../..'
+);
 const build = XRegExp('/build/');
 const source = '/source/';
 const mockData =  'mock-data';
@@ -49,6 +54,11 @@ const createCssBundle = [
 
 describe('vamtiger-bundle-css-next should', function () {
     it('bundle html into a single CSS file', async function () {
+        const directoryContent = await getDirectoryContent(projectPath);
+        const copySourceFiles = directoryContent.includes('source') ? 
+            await bash(copySource).catch(() => {})
+            :
+            this.skip();
         const createFolder = bash(createMockDataFolder).catch(ignore);
         const copy = await bash(copySource).catch(() => {});
         const createdBundle = await bash(createCssBundle);
