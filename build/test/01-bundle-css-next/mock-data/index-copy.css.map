@@ -1,1 +1,0 @@
-{"version":3,"sources":["build/test/01-bundle-css-next/mock-data/reset/index.css"],"names":[],"mappings":"AAAA,UAGI,SAAU,AACV,SAAW,CACd","file":"build/test/01-bundle-css-next/mock-data/index.css","sourcesContent":["html,\nbody \n{\n    margin: 0;\n    padding: 0;\n}"]}
