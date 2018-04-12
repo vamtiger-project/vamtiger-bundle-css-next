@@ -11,9 +11,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = require("path");
 const chai_1 = require("chai");
 const vamtiger_bash_1 = require("vamtiger-bash");
+const vamtiger_get_directory_content_1 = require("vamtiger-get-directory-content");
 const vamtiger_get_file_data_1 = require("vamtiger-get-file-data");
 const XRegExp = require("xregexp");
 const types_1 = require("../../types");
+const projectPath = path_1.resolve(__dirname, '../../..');
 const build = XRegExp('/build/');
 const source = '/source/';
 const mockData = 'mock-data';
@@ -37,6 +39,11 @@ const createCssBundle = [
 describe('vamtiger-bundle-css-next should', function () {
     it('bundle html into a single CSS file', function () {
         return __awaiter(this, void 0, void 0, function* () {
+            const directoryContent = yield vamtiger_get_directory_content_1.default(projectPath);
+            const copySourceFiles = directoryContent.includes('source') ?
+                yield vamtiger_bash_1.default(copySource).catch(() => { })
+                :
+                    this.skip();
             const createFolder = vamtiger_bash_1.default(createMockDataFolder).catch(ignore);
             const copy = yield vamtiger_bash_1.default(copySource).catch(() => { });
             const createdBundle = yield vamtiger_bash_1.default(createCssBundle);
