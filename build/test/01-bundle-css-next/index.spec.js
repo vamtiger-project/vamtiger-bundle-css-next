@@ -21,11 +21,13 @@ const cssFile = 'index.css';
 const cssFileCopy = 'index-copy.css';
 const encoding = 'utf-8';
 const mockDataFolderPath = path_1.resolve(__dirname, mockData);
-const entryFilePath = path_1.resolve(XRegExp.replace(mockDataFolderPath, build, source), cssFile);
+const sourceEntryFolder = path_1.resolve(XRegExp.replace(mockDataFolderPath, build, source));
+const copySource = `cp -rfv ${sourceEntryFolder}/* ${mockDataFolderPath}/`;
+const entryFilePath = path_1.resolve(mockDataFolderPath, cssFile);
 const bundleFilePath = path_1.resolve(mockDataFolderPath, cssFile);
 const copyBundleFilePath = path_1.resolve(mockDataFolderPath, cssFileCopy);
 const createMockDataFolder = `mkdir ${mockDataFolderPath}`;
-const bundleHtmlParams = {
+const bundleCssParams = {
     entryFilePath,
     bundleFilePath,
     copyBundleFilePath
@@ -33,8 +35,9 @@ const bundleHtmlParams = {
 describe('vamtiger-bundle-css-next should', function () {
     it('bundle html into a single CSS file', function () {
         return __awaiter(this, void 0, void 0, function* () {
+            const copy = yield vamtiger_bash_1.default(copySource).catch(() => { });
             const createFolder = vamtiger_bash_1.default(createMockDataFolder).catch(ignore);
-            const createdBundle = yield __1.default(bundleHtmlParams);
+            const createdBundle = yield __1.default(bundleCssParams);
             const cssBundle = yield vamtiger_get_file_data_1.default(bundleFilePath, encoding);
             const cssBundleCopy = yield vamtiger_get_file_data_1.default(copyBundleFilePath, encoding);
             chai_1.expect(createdBundle).to.be.ok;
