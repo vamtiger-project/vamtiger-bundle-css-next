@@ -17,8 +17,12 @@ const mockDataFolderPath = resolvePath(
     __dirname,
     mockData
 );
+const sourceEntryFolder = resolvePath(
+    XRegExp.replace(mockDataFolderPath, build, source)
+);
+const copySource = `cp -rfv ${sourceEntryFolder}/* ${mockDataFolderPath}/`;
 const entryFilePath = resolvePath(
-    XRegExp.replace(mockDataFolderPath, build, source),
+    mockDataFolderPath,
     cssFile
 );
 const bundleFilePath = resolvePath(
@@ -34,7 +38,7 @@ const createBundlePath = resolvePath(
     __dirname,
     '../../bin/index.js'
 );
-const createHtmlBundle = [
+const createCssBundle = [
     `node ${createBundlePath}`,
     `--${Args.entryFilePath} ${entryFilePath}`,
     `--${Args.bundleFilePath} ${bundleFilePath}`,
@@ -43,8 +47,9 @@ const createHtmlBundle = [
 
 describe('vamtiger-bundle-css-next should', function () {
     it('bundle html into a single CSS file', async function () {
+        const copy = await bash(copySource).catch(() => {});
         const createFolder = bash(createMockDataFolder).catch(ignore);
-        const createdBundle = await bash(createHtmlBundle);
+        const createdBundle = await bash(createCssBundle);
         const cssBundle = await getFileData(bundleFilePath, encoding);
         const cssBundleCopy = await getFileData(copyBundleFilePath, encoding);
 
