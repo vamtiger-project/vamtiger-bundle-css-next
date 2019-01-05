@@ -29,9 +29,9 @@ const bundleProcessors = [
     cssnano
 ];
 exports.default = (params) => __awaiter(this, void 0, void 0, function* () {
-    const entryFilePath = params.entryFilePath;
-    const bundleFilePath = entryFilePath && params.bundleFilePath;
+    const { ts, entryFilePath, bundleFilePath } = params;
     const bundleMapFilePath = `${bundleFilePath}.map`;
+    const bundleTsFilePath = ts && `${bundleFilePath.replace(/css$/, 'ts')}`;
     const bundleMapFileRelativePath = path_1.basename(bundleMapFilePath);
     const copyBundleFilePath = bundleFilePath && params.copyBundleFilePath;
     const copyBundleMapFilePath = copyBundleFilePath && `${copyBundleFilePath}.map`;
@@ -45,6 +45,11 @@ exports.default = (params) => __awaiter(this, void 0, void 0, function* () {
     const bundle = yield postcss(bundleProcessors)
         .process(css, bundleParams);
     const bundleMatch = XRegExp.exec(bundle.css, regex_1.sourceMap);
+    const bundleCss = bundleMatch && `${bundleMatch.css}${bundleMatch.sourcMapPrefix}${bundleMapFileRelativePath}${bundleMatch.sourcMapSuffix}`
+        || bundle.css;
+    const bundleTs = bundleTsFilePath && `export default \`${bundleCss}\`;`;
+    const bundleText = bundleTs && bundleTs
+        || bundleCss;
     const copyFileParams = copyBundleFilePath && {
         source: bundleFilePath,
         destination: copyBundleFilePath
@@ -58,14 +63,16 @@ exports.default = (params) => __awaiter(this, void 0, void 0, function* () {
         throw new Error(types_1.ErrorMessage.noEntryFile);
     else if (!bundleFilePath)
         throw new Error(types_1.ErrorMessage.noBundleFile);
-    bundleMatch ?
-        yield vamtiger_create_file_1.default(bundleFilePath, `${bundleMatch.css}${bundleMatch.sourcMapPrefix}${bundleMapFileRelativePath}${bundleMatch.sourcMapSuffix}`)
-        :
-            yield vamtiger_create_file_1.default(bundleFilePath, bundle.css);
-    yield vamtiger_create_file_1.default(bundleMapFilePath, bundle.map);
+    yield Promise.all([
+        vamtiger_create_file_1.default(bundleFilePath, bundleText),
+        vamtiger_create_file_1.default(bundleMapFilePath, bundle.map),
+        bundleTsFilePath && bundleTs && vamtiger_create_file_1.default(bundleTsFilePath, bundleTs) || Promise.resolve()
+    ]);
     if (copyFileParams && copyMapFileParams) {
-        yield vamtiger_copy_file_1.default(copyFileParams);
-        yield vamtiger_copy_file_1.default(copyMapFileParams);
+        yield Promise.all([
+            yield vamtiger_copy_file_1.default(copyFileParams),
+            yield vamtiger_copy_file_1.default(copyMapFileParams)
+        ]);
     }
     result = true;
     return result;

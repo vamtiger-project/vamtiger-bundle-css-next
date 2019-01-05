@@ -32,10 +32,12 @@ const watch = args.has(types_1.CommandlineArgs.watch);
 const watchOptions = {
     recursive: true
 };
+const ts = args.has(types_1.CommandlineArgs.ts);
 const bundleHtmlParams = {
     entryFilePath,
     bundleFilePath,
-    copyBundleFilePath
+    copyBundleFilePath,
+    ts
 };
 if (!entryFilePath)
     throw new Error(types_1.ErrorMessage.noEntryFile);

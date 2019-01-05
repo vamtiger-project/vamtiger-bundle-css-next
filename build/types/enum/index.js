@@ -12,6 +12,7 @@ var CommandlineArgs;
     CommandlineArgs["copyBundleFilePath"] = "copyBundleFilePath";
     CommandlineArgs["relativePath"] = "relativePath";
     CommandlineArgs["watch"] = "watch";
+    CommandlineArgs["ts"] = "ts";
 })(CommandlineArgs = exports.CommandlineArgs || (exports.CommandlineArgs = {}));
 var FileExtension;
 (function (FileExtension) {

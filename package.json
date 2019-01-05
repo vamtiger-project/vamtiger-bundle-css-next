@@ -1,15 +1,16 @@
 {
     "name": "vamtiger-bundle-css-next",
-    "version": "0.0.12",
+    "version": "0.1.0",
     "description": "Bundle CSS Next",
     "main": "build",
     "bin": {
         "vamtiger-bundle-css-next": "build/bin/index.js"
     },
     "scripts": {
-        "test": "mocha build/test --recursive",
+        "test": "npm run clean && npm run build && mocha build/test --recursive",
         "build": "tsc",
-        "commit": "vamtigerNodeTypescriptCommit --push --publish"
+        "commit": "vamtigerNodeTypescriptCommit --push --publish --publishSource",
+        "clean": "rm -rf build"
     },
     "repository": {
         "type": "git",
@@ -37,7 +38,7 @@
         "typescript": "^2.7.2",
         "vamtiger-bash": "0.0.16",
         "vamtiger-get-directory-content": "0.0.33",
-        "vamtiger-node-typescript-commit": "0.0.51"
+        "vamtiger-node-typescript-commit": "^0.9.1"
     },
     "dependencies": {
         "cssnano": "^3.10.0",

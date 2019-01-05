@@ -8,6 +8,7 @@ export declare enum CommandlineArgs {
     copyBundleFilePath = "copyBundleFilePath",
     relativePath = "relativePath",
     watch = "watch",
+    ts = "ts",
 }
 export declare enum FileExtension {
     css = "css",
