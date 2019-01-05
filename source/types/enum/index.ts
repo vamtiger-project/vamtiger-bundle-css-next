@@ -8,7 +8,8 @@ export enum CommandlineArgs {
     bundleFilePath = 'bundleFilePath',
     copyBundleFilePath = 'copyBundleFilePath',
     relativePath = 'relativePath',
-    watch = 'watch'
+    watch = 'watch',
+    ts = 'ts'
 }
 
 export enum FileExtension {

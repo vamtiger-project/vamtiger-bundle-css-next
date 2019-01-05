@@ -22,9 +22,9 @@ const bundleProcessors = [
 ];
 
 export default async (params: Params) => {
-    const entryFilePath = params.entryFilePath;
-    const bundleFilePath = entryFilePath && params.bundleFilePath as string;
+    const { ts, entryFilePath, bundleFilePath } = params;
     const bundleMapFilePath = `${bundleFilePath}.map`;
+    const bundleTsFilePath = ts && `${(bundleFilePath as string).replace(/css$/, 'ts')}`;
     const bundleMapFileRelativePath = getFileName(bundleMapFilePath);
     const copyBundleFilePath = bundleFilePath && params.copyBundleFilePath;
     const copyBundleMapFilePath = copyBundleFilePath && `${copyBundleFilePath}.map`;
@@ -38,6 +38,11 @@ export default async (params: Params) => {
     const bundle = await postcss(bundleProcessors)
         .process(css, bundleParams);
     const bundleMatch = XRegExp.exec(bundle.css, regex) as Match;
+    const bundleCss = bundleMatch && `${bundleMatch.css}${bundleMatch.sourcMapPrefix}${bundleMapFileRelativePath}${bundleMatch.sourcMapSuffix}`
+        || bundle.css;
+    const bundleTs = bundleTsFilePath && `export default \`${bundleCss}\`;`;
+    const bundleText = bundleTs && bundleTs
+        || bundleCss
     const copyFileParams = copyBundleFilePath && {
         source: bundleFilePath,
         destination: copyBundleFilePath
@@ -51,16 +56,17 @@ export default async (params: Params) => {
     if (!entryFilePath) throw new Error(ErrorMessage.noEntryFile);
     else if (!bundleFilePath) throw new Error(ErrorMessage.noBundleFile);
 
-    bundleMatch ?
-        await createFile(bundleFilePath, `${bundleMatch.css}${bundleMatch.sourcMapPrefix}${bundleMapFileRelativePath}${bundleMatch.sourcMapSuffix}`)
-        :
-        await createFile(bundleFilePath, bundle.css);
-
-    await createFile(bundleMapFilePath, bundle.map);
+    await Promise.all([
+        createFile(bundleFilePath, bundleText),
+        createFile(bundleMapFilePath, bundle.map),
+        bundleTsFilePath && bundleTs && createFile(bundleTsFilePath, bundleTs) || Promise.resolve()
+    ]);
 
     if (copyFileParams && copyMapFileParams) {
-        await copyFile(copyFileParams);
-        await copyFile(copyMapFileParams);
+        await Promise.all([
+            await copyFile(copyFileParams),
+            await copyFile(copyMapFileParams)
+        ]);
     }
 
     result = true;

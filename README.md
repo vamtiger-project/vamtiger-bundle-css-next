@@ -29,7 +29,12 @@ vamtiger-bundle-css-next --relativePath --entryFilePath absolute/path/source/ind
 
 The **relativePath** option can be used to reference **entryFilePath** and **bundleFilePath** relative to the current working directory:
 ```bash
-vamtiger-bundle-css-next --relativePath --entryFilePath source/index.ts --bundleFilePath build/bundle.js --format cjs --sourcemap inline --copyBundleFilePath absolute/path/some/bundle-copy.js
+vamtiger-bundle-css-next --relativePath --entryFilePath source/index.ts --bundleFilePath build/bundle.css --sourcemap inline --copyBundleFilePath absolute/path/some/bundle-copy.css
+```
+
+The **ts** option can be used to export a bundle as a **typescript** module:
+```bash
+vamtiger-bundle-css-next --relativePath --entryFilePath source/index.ts --bundleFilePath build/bundle.css --sourcemap inline --copyBundleFilePath absolute/path/some/bundle-copy.css --ts
 ```
 
 [VAMTIGER Bundle CSS Next](https://github.com/vamtiger-project/vamtiger-bundle-css-next) can also be defined as a custom script:
