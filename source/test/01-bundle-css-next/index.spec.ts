@@ -42,8 +42,7 @@ const createMockDataFolder = `mkdir ${mockDataFolderPath}`;
 const bundleCssParams = {
     entryFilePath,
     bundleFilePath,
-    copyBundleFilePath,
-    ts: true
+    copyBundleFilePath
 };
 
 describe('vamtiger-bundle-css-next should', function () {

@@ -20,11 +20,12 @@ const bundleProcessors = [
     cssNext,
     cssnano
 ];
+const typescriptExtension = /\.ts$/;
 
 export default async (params: Params) => {
-    const { ts, entryFilePath, bundleFilePath } = params;
+    const { entryFilePath, bundleFilePath } = params;
+    const ts = (bundleFilePath as string).match(typescriptExtension);
     const bundleMapFilePath = `${bundleFilePath}.map`;
-    const bundleTsFilePath = ts && `${(bundleFilePath as string).replace(/css$/, 'ts')}`;
     const bundleMapFileRelativePath = getFileName(bundleMapFilePath);
     const copyBundleFilePath = bundleFilePath && params.copyBundleFilePath;
     const copyBundleMapFilePath = copyBundleFilePath && `${copyBundleFilePath}.map`;
@@ -40,7 +41,7 @@ export default async (params: Params) => {
     const bundleMatch = XRegExp.exec(bundle.css, regex) as Match;
     const bundleCss = bundleMatch && `${bundleMatch.css}${bundleMatch.sourcMapPrefix}${bundleMapFileRelativePath}${bundleMatch.sourcMapSuffix}`
         || bundle.css;
-    const bundleTs = bundleTsFilePath && `export default \`${bundleCss}\`;`;
+    const bundleTs = ts && `export default \`${bundleCss}\`;`;
     const bundleText = bundleTs && bundleTs
         || bundleCss
     const copyFileParams = copyBundleFilePath && {
@@ -58,8 +59,7 @@ export default async (params: Params) => {
 
     await Promise.all([
         createFile(bundleFilePath, bundleText),
-        createFile(bundleMapFilePath, bundle.map),
-        bundleTsFilePath && bundleTs && createFile(bundleTsFilePath, bundleTs) || Promise.resolve()
+        createFile(bundleMapFilePath, bundle.map)
     ]);
 
     if (copyFileParams && copyMapFileParams) {

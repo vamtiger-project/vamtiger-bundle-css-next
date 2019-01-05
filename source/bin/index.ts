@@ -29,12 +29,10 @@ const watch = args.has(CommandlineArgs.watch);
 const watchOptions = {
     recursive: true
 };
-const ts = args.has(CommandlineArgs.ts);
 const bundleHtmlParams = {
     entryFilePath,
     bundleFilePath,
-    copyBundleFilePath,
-    ts
+    copyBundleFilePath
 };
 
 if (!entryFilePath) 
