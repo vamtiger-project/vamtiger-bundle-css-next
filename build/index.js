@@ -28,10 +28,11 @@ const bundleProcessors = [
     cssNext,
     cssnano
 ];
+const typescriptExtension = /\.ts$/;
 exports.default = (params) => __awaiter(this, void 0, void 0, function* () {
-    const { ts, entryFilePath, bundleFilePath } = params;
+    const { entryFilePath, bundleFilePath } = params;
+    const ts = bundleFilePath.match(typescriptExtension);
     const bundleMapFilePath = `${bundleFilePath}.map`;
-    const bundleTsFilePath = ts && `${bundleFilePath.replace(/css$/, 'ts')}`;
     const bundleMapFileRelativePath = path_1.basename(bundleMapFilePath);
     const copyBundleFilePath = bundleFilePath && params.copyBundleFilePath;
     const copyBundleMapFilePath = copyBundleFilePath && `${copyBundleFilePath}.map`;
@@ -47,7 +48,7 @@ exports.default = (params) => __awaiter(this, void 0, void 0, function* () {
     const bundleMatch = XRegExp.exec(bundle.css, regex_1.sourceMap);
     const bundleCss = bundleMatch && `${bundleMatch.css}${bundleMatch.sourcMapPrefix}${bundleMapFileRelativePath}${bundleMatch.sourcMapSuffix}`
         || bundle.css;
-    const bundleTs = bundleTsFilePath && `export default \`${bundleCss}\`;`;
+    const bundleTs = ts && `export default \`${bundleCss}\`;`;
     const bundleText = bundleTs && bundleTs
         || bundleCss;
     const copyFileParams = copyBundleFilePath && {
@@ -65,8 +66,7 @@ exports.default = (params) => __awaiter(this, void 0, void 0, function* () {
         throw new Error(types_1.ErrorMessage.noBundleFile);
     yield Promise.all([
         vamtiger_create_file_1.default(bundleFilePath, bundleText),
-        vamtiger_create_file_1.default(bundleMapFilePath, bundle.map),
-        bundleTsFilePath && bundleTs && vamtiger_create_file_1.default(bundleTsFilePath, bundleTs) || Promise.resolve()
+        vamtiger_create_file_1.default(bundleMapFilePath, bundle.map)
     ]);
     if (copyFileParams && copyMapFileParams) {
         yield Promise.all([
