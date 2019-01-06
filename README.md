@@ -1,4 +1,4 @@
-# VAMTIGER Bundle Typescript
+# VAMTIGER Bundle CSS Next
 [VAMTIGER Bundle CSS Next](https://github.com/vamtiger-project/vamtiger-bundle-css-next) bundles  [CSS Next](http://cssnext.io/) into a single compiled output file.
 
 ## Installation
